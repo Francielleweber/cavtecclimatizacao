@@ -1205,8 +1205,10 @@ function excluirRegistro(tabela, id, renderFn){
   if(!confirm('Excluir este registro? Esta ação não pode ser desfeita.')) return;
   DB[tabela]=DB[tabela].filter(x=>x.id!==id);
   save(tabela,DB[tabela]);
-  if(typeof renderFn==='string') eval(renderFn+'()');
-  else if(typeof renderFn==='function') renderFn();
+  if(typeof renderFn==='string'){
+    const _fns={renderClientes,renderFornecedores,renderApagar,renderAreceber,renderOrcamentos,renderDashboard,renderEmpresa};
+    if(_fns[renderFn]) _fns[renderFn]();
+  } else if(typeof renderFn==='function') renderFn();
   showToast('Registro excluído.');
 }
 
