@@ -1,0 +1,1222 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cavtec Refrigeração e Climatização</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#F0F4FA; --surface:#fff; --surface2:#E4EAF5;
+  --border:#C8D4E8; --border2:#A8BCDA;
+  --text:#1A2A4A; --text2:#4A5C78; --text3:#7A8FA8;
+  --accent:#1B4F8A; --accent2:#153D6E;
+  --green:#1A6B3A; --green-bg:#E6F4EC;
+  --red:#8B2020; --red-bg:#FAE8E8;
+  --amber:#7A4F00; --amber-bg:#FDF3DC;
+  --blue:#1B4F8A; --blue-bg:#D6E6F5;
+  --radius:10px; --radius-sm:6px;
+  --shadow:0 1px 3px rgba(0,0,0,.08),0 1px 2px rgba(0,0,0,.04);
+  --shadow-md:0 4px 12px rgba(0,0,0,.1),0 2px 4px rgba(0,0,0,.06);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'DM Sans',sans-serif;font-size:14px;background:var(--bg);color:var(--text);min-height:100vh;}
+.app{display:flex;min-height:100vh;}
+
+/* SIDEBAR */
+.sidebar{width:240px;min-width:240px;background:var(--accent);color:#fff;display:flex;flex-direction:column;position:sticky;top:0;height:100vh;overflow-y:auto;}
+.logo{padding:20px 20px 16px;border-bottom:1px solid rgba(255,255,255,.1);display:flex;flex-direction:column;align-items:flex-start;gap:6px;}
+.logo-img-wrap{width:100%;display:flex;justify-content:center;margin-bottom:4px;}
+.logo-img{max-width:130px;max-height:52px;object-fit:contain;border-radius:4px;}
+.logo-placeholder{width:130px;height:52px;background:rgba(255,255,255,.12);border:1px dashed rgba(255,255,255,.3);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:10px;color:rgba(255,255,255,.4);cursor:pointer;text-align:center;line-height:1.3;}
+.logo h1{font-size:15px;font-weight:700;letter-spacing:-.2px;color:#fff;}
+.logo p{font-size:10px;color:rgba(255,255,255,.4);font-family:'DM Mono',monospace;}
+.nav-section{padding:14px 20px 5px;font-size:10px;font-weight:600;color:rgba(255,255,255,.3);letter-spacing:.08em;text-transform:uppercase;}
+.nav-item{display:flex;align-items:center;gap:10px;padding:9px 20px;cursor:pointer;font-size:13px;font-weight:400;color:rgba(255,255,255,.65);transition:all .15s;border-left:2px solid transparent;}
+.nav-item:hover{color:#fff;background:rgba(255,255,255,.07);}
+.nav-item.active{color:#fff;background:rgba(255,255,255,.12);border-left-color:rgba(255,255,255,.6);font-weight:600;}
+.nav-icon{width:16px;height:16px;flex-shrink:0;opacity:.7;}
+.nav-item.active .nav-icon{opacity:1;}
+.sidebar-footer{margin-top:auto;padding:14px 20px;border-top:1px solid rgba(255,255,255,.1);font-size:11px;color:rgba(255,255,255,.3);}
+
+/* MAIN */
+.main{flex:1;display:flex;flex-direction:column;min-width:0;}
+.topbar{background:var(--surface);border-bottom:1px solid var(--border);padding:12px 28px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10;}
+.topbar-left h2{font-size:17px;font-weight:700;letter-spacing:-.2px;}
+.topbar-left p{font-size:12px;color:var(--text3);margin-top:1px;}
+.topbar-right{display:flex;align-items:center;gap:8px;}
+.content{flex:1;padding:24px 28px;overflow-y:auto;}
+
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:var(--radius-sm);border:1px solid var(--border);background:var(--surface);color:var(--text);cursor:pointer;font-size:13px;font-family:'DM Sans',sans-serif;font-weight:500;transition:all .15s;white-space:nowrap;}
+.btn:hover{border-color:var(--border2);background:var(--surface2);}
+.btn:active{transform:scale(.98);}
+.btn.primary{background:var(--accent);color:#fff;border-color:var(--accent);}
+.btn.primary:hover{background:var(--accent2);}
+.btn.success{background:var(--green);color:#fff;border-color:var(--green);}
+.btn.success:hover{background:#145230;}
+.btn.danger{background:var(--red-bg);color:var(--red);border-color:#e8b4b4;}
+.btn.danger:hover{background:#f5d0d0;}
+.btn.warning{background:var(--amber-bg);color:var(--amber);border-color:#e8d48b;}
+.btn.info{background:var(--blue-bg);color:var(--blue);border-color:#b8cee8;}
+.btn-sm{padding:5px 10px;font-size:12px;}
+.btn-xs{padding:3px 8px;font-size:11px;}
+.btn-icon{padding:6px;width:30px;height:30px;justify-content:center;}
+
+/* CARD */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);margin-bottom:20px;}
+.card-header{padding:14px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.card-header h3{font-size:14px;font-weight:600;}
+.card-body{padding:20px;}
+.card-body.no-pad{padding:0;}
+
+/* METRICS */
+.metrics-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:22px;}
+.metric{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px 18px;box-shadow:var(--shadow);}
+.metric .m-label{font-size:11px;color:var(--text3);font-weight:500;text-transform:uppercase;letter-spacing:.05em;margin-bottom:5px;}
+.metric .m-val{font-size:22px;font-weight:700;letter-spacing:-.5px;}
+.metric .m-sub{font-size:11px;color:var(--text3);margin-top:3px;}
+.metric.green .m-val{color:var(--green);}
+.metric.red .m-val{color:var(--red);}
+.metric.amber .m-val{color:var(--amber);}
+.metric.blue .m-val{color:var(--blue);}
+
+/* FORMS */
+.field{margin-bottom:13px;}
+.field label{display:block;font-size:12px;font-weight:500;color:var(--text2);margin-bottom:4px;}
+.field input,.field select,.field textarea{width:100%;padding:8px 11px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--surface);color:var(--text);font-size:13px;font-family:'DM Sans',sans-serif;transition:border-color .15s;}
+.field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(27,79,138,.12);}
+.field textarea{resize:vertical;min-height:68px;}
+.field.req label::after{content:' *';color:var(--red);}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:13px;}
+.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:13px;}
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:13px;}
+
+/* TABLE */
+.table-wrap{overflow-x:auto;}
+table{width:100%;border-collapse:collapse;}
+thead th{text-align:left;padding:9px 14px;font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.05em;background:var(--bg);border-bottom:1px solid var(--border);}
+tbody td{padding:11px 14px;border-bottom:1px solid var(--border);font-size:13px;vertical-align:middle;}
+tbody tr:last-child td{border-bottom:none;}
+tbody tr:hover td{background:var(--bg);}
+.td-actions{display:flex;gap:5px;align-items:center;}
+
+/* BADGES */
+.badge{display:inline-flex;align-items:center;padding:3px 8px;border-radius:100px;font-size:11px;font-weight:600;}
+.badge-green{background:var(--green-bg);color:var(--green);}
+.badge-red{background:var(--red-bg);color:var(--red);}
+.badge-amber{background:var(--amber-bg);color:var(--amber);}
+.badge-blue{background:var(--blue-bg);color:var(--blue);}
+.badge-gray{background:var(--surface2);color:var(--text2);}
+
+/* TABS */
+.tabs{display:flex;border-bottom:1px solid var(--border);margin-bottom:18px;}
+.tab{padding:9px 16px;cursor:pointer;font-size:13px;font-weight:500;color:var(--text3);border-bottom:2px solid transparent;transition:all .15s;margin-bottom:-1px;}
+.tab:hover{color:var(--text2);}
+.tab.active{color:var(--accent);border-bottom-color:var(--accent);}
+
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(10,10,8,.55);display:flex;align-items:center;justify-content:center;z-index:1000;padding:20px;backdrop-filter:blur(2px);}
+.modal{background:var(--surface);border:1px solid var(--border);border-radius:14px;width:640px;max-width:100%;max-height:92vh;display:flex;flex-direction:column;box-shadow:var(--shadow-md);}
+.modal.modal-lg{width:820px;}
+.modal.modal-sm{width:460px;}
+.modal-header{padding:16px 22px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
+.modal-header h3{font-size:15px;font-weight:600;}
+.modal-body{padding:22px;overflow-y:auto;flex:1;}
+.modal-footer{padding:13px 22px;border-top:1px solid var(--border);display:flex;gap:8px;justify-content:flex-end;flex-shrink:0;background:var(--bg);border-radius:0 0 14px 14px;}
+.modal-close{background:none;border:none;font-size:18px;cursor:pointer;color:var(--text3);padding:2px 6px;border-radius:4px;}
+.modal-close:hover{background:var(--surface2);}
+
+/* SEARCH & FILTERS */
+.search-row{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;}
+.search-input{flex:1;min-width:180px;padding:8px 13px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--surface);color:var(--text);font-size:13px;font-family:'DM Sans',sans-serif;}
+.search-input:focus{outline:none;border-color:var(--accent);}
+
+/* TOAST */
+.toast{position:fixed;bottom:24px;right:24px;padding:11px 18px;border-radius:var(--radius);font-size:13px;font-weight:500;z-index:9999;opacity:0;transform:translateY(8px);transition:all .25s;pointer-events:none;box-shadow:var(--shadow-md);max-width:320px;}
+.toast.show{opacity:1;transform:translateY(0);}
+.toast.ok{background:var(--text);color:#fff;}
+.toast.err{background:var(--red);color:#fff;}
+.toast.warn{background:var(--amber);color:#fff;}
+
+/* EMPTY STATE */
+.empty{text-align:center;padding:44px 20px;color:var(--text3);}
+.empty .e-icon{font-size:32px;margin-bottom:10px;}
+.empty h4{font-size:14px;font-weight:600;color:var(--text2);margin-bottom:5px;}
+.empty p{font-size:13px;}
+
+/* SECTION DIVIDER */
+.sec-div{font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin:18px 0 11px;padding-bottom:5px;border-bottom:1px solid var(--border);}
+
+/* ITEMS DE ORÇAMENTO */
+.orcamento-items{width:100%;border-collapse:collapse;margin-bottom:8px;}
+.orcamento-items th{background:var(--bg);padding:7px 10px;font-size:11px;font-weight:600;color:var(--text3);text-align:left;border-bottom:1px solid var(--border);}
+.orcamento-items td{padding:6px 4px;border-bottom:1px solid var(--border);vertical-align:middle;}
+.orcamento-items td input,.orcamento-items td select{padding:6px 8px;border:1px solid var(--border);border-radius:4px;font-size:12px;font-family:'DM Sans',sans-serif;width:100%;background:var(--surface);color:var(--text);}
+.orcamento-items td input:focus,.orcamento-items td select:focus{outline:none;border-color:var(--accent);}
+.orcamento-total-box{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-sm);padding:13px 16px;margin-top:10px;}
+.orcamento-total-line{display:flex;justify-content:space-between;font-size:13px;padding:3px 0;}
+.orcamento-total-line.bold{font-weight:700;font-size:15px;padding-top:8px;border-top:1px solid var(--border);margin-top:5px;}
+
+/* CONFIG EMPRESA */
+.empresa-logo-preview{max-width:200px;max-height:80px;border-radius:6px;border:1px solid var(--border);object-fit:contain;margin-top:8px;}
+.logo-upload-area{border:2px dashed var(--border);border-radius:var(--radius-sm);padding:16px;text-align:center;cursor:pointer;color:var(--text3);font-size:13px;transition:all .15s;}
+.logo-upload-area:hover{border-color:var(--accent);background:rgba(27,79,138,.04);color:var(--accent);}
+
+/* ───── IMPRESSÃO DO ORÇAMENTO ───── */
+@media print {
+  * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+  body > *:not(#print-area) { display: none !important; }
+  #print-area { display: block !important; }
+}
+#print-area { display: none; }
+
+.print-orcamento{font-family:'DM Sans',sans-serif;font-size:13px;color:#1A2A4A;max-width:800px;margin:0 auto;padding:24px;}
+.print-header{display:flex;justify-content:space-between;align-items:flex-start;padding-bottom:18px;border-bottom:3px solid #1B4F8A;margin-bottom:18px;}
+.print-empresa-info h1{font-size:20px;font-weight:700;color:#1B4F8A;margin-bottom:3px;}
+.print-empresa-info p{font-size:11px;color:#4A5C78;line-height:1.6;}
+.print-logo{max-width:160px;max-height:65px;object-fit:contain;}
+.print-title-box{background:#1B4F8A;color:#fff;padding:8px 18px;border-radius:6px;text-align:center;margin-bottom:18px;}
+.print-title-box h2{font-size:16px;font-weight:700;letter-spacing:.5px;}
+.print-title-box p{font-size:11px;opacity:.75;margin-top:2px;}
+.print-two-col{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:18px;}
+.print-box{border:1px solid #C8D4E8;border-radius:6px;padding:12px 14px;}
+.print-box h4{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#1B4F8A;margin-bottom:8px;padding-bottom:5px;border-bottom:1px solid #C8D4E8;}
+.print-box p{font-size:12px;color:#1A2A4A;line-height:1.7;}
+.print-box strong{color:#1B4F8A;}
+.print-items{width:100%;border-collapse:collapse;margin-bottom:14px;}
+.print-items thead th{background:#1B4F8A;color:#fff;padding:9px 12px;font-size:11px;font-weight:600;text-align:left;}
+.print-items tbody td{padding:9px 12px;border-bottom:1px solid #C8D4E8;font-size:12px;color:#1A2A4A;}
+.print-items tbody tr:last-child td{border-bottom:none;}
+.print-items tbody tr:nth-child(even) td{background:#F0F4FA;}
+.print-totals{display:flex;justify-content:flex-end;margin-bottom:18px;}
+.print-totals-inner{border:1px solid #C8D4E8;border-radius:6px;padding:12px 18px;min-width:240px;}
+.print-tot-line{display:flex;justify-content:space-between;font-size:12px;padding:3px 0;color:#1A2A4A;}
+.print-tot-line.big{font-size:15px;font-weight:700;color:#1B4F8A;padding-top:8px;border-top:2px solid #1B4F8A;margin-top:5px;}
+.print-obs-box{border:1px solid #C8D4E8;border-radius:6px;padding:12px 14px;margin-bottom:18px;}
+.print-obs-box h4{font-size:11px;font-weight:700;text-transform:uppercase;color:#1B4F8A;margin-bottom:6px;}
+.print-obs-box p{font-size:12px;color:#4A5C78;line-height:1.6;}
+.print-footer{border-top:1px solid #C8D4E8;padding-top:12px;display:flex;justify-content:space-between;font-size:11px;color:#7A8FA8;}
+.print-assinatura{margin-top:40px;display:grid;grid-template-columns:1fr 1fr;gap:40px;}
+.print-assinatura-linha{border-top:1px solid #A8BCDA;padding-top:6px;font-size:11px;color:#4A5C78;text-align:center;}
+
+/* RESPONSIVO */
+@media(max-width:900px){.metrics-grid{grid-template-columns:repeat(2,1fr);}.grid-4{grid-template-columns:repeat(2,1fr);}.sidebar{width:200px;min-width:200px;}}
+@media(max-width:640px){.sidebar{display:none;}.content{padding:16px;}.grid-2,.grid-3,.grid-4{grid-template-columns:1fr;}.metrics-grid{grid-template-columns:1fr 1fr;}}
+</style>
+</head>
+<body>
+
+<div class="toast" id="toast"></div>
+<div id="print-area"></div>
+
+<div class="app" id="app">
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="logo">
+      
+      </div>
+      <h1 id="sidebar-nome">Minha Empresa</h1>
+      <p>Sistema de Gestão</p>
+    </div>
+    <nav>
+      <div class="nav-section">Principal</div>
+      <div class="nav-item active" onclick="nav('dashboard')" id="nav-dashboard">
+        <svg class="nav-icon" viewBox="0 0 16 16" fill="none"><rect x="1.5" y="1.5" width="5.5" height="5.5" rx="1" fill="white" opacity=".8"/><rect x="9" y="1.5" width="5.5" height="5.5" rx="1" fill="white" opacity=".5"/><rect x="1.5" y="9" width="5.5" height="5.5" rx="1" fill="white" opacity=".5"/><rect x="9" y="9" width="5.5" height="5.5" rx="1" fill="white" opacity=".8"/></svg>
+        Dashboard
+      </div>
+      <div class="nav-section">Cadastros</div>
+      <div class="nav-item" onclick="nav('clientes')" id="nav-clientes">
+        <svg class="nav-icon" viewBox="0 0 16 16" fill="none"><circle cx="6" cy="5" r="2.5" stroke="white" stroke-width="1.3"/><path d="M1 13c0-2.8 2.2-5 5-5" stroke="white" stroke-width="1.3" opacity=".7"/><circle cx="12" cy="8" r="2" stroke="white" stroke-width="1.3" opacity=".8"/><path d="M9.5 14c0-2.2 1.1-3.5 2.5-3.5S15 11.8 15 14" stroke="white" stroke-width="1.3" opacity=".7"/></svg>
+        Clientes
+      </div>
+      <div class="nav-item" onclick="nav('fornecedores')" id="nav-fornecedores">
+        <svg class="nav-icon" viewBox="0 0 16 16" fill="none"><rect x="2" y="8" width="12" height="6" rx="1" stroke="white" stroke-width="1.3" opacity=".7"/><path d="M5 8V6a3 3 0 016 0v2" stroke="white" stroke-width="1.3"/><circle cx="8" cy="11" r="1" fill="white" opacity=".8"/></svg>
+        Fornecedores
+      </div>
+      <div class="nav-section">Financeiro</div>
+      <div class="nav-item" onclick="nav('apagar')" id="nav-apagar">
+        <svg class="nav-icon" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="white" stroke-width="1.3" opacity=".7"/><path d="M8 5v3l2 2" stroke="white" stroke-width="1.3" stroke-linecap="round"/></svg>
+        Contas a Pagar
+      </div>
+      <div class="nav-item" onclick="nav('areceber')" id="nav-areceber">
+        <svg class="nav-icon" viewBox="0 0 16 16" fill="none"><path d="M2 11l4-4 3 3 5-6" stroke="white" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Contas a Receber
+      </div>
+      <div class="nav-section">Comercial</div>
+      <div class="nav-item" onclick="nav('orcamentos')" id="nav-orcamentos">
+        <svg class="nav-icon" viewBox="0 0 16 16" fill="none"><path d="M3 2h7l3 3v9a1 1 0 01-1 1H3a1 1 0 01-1-1V3a1 1 0 011-1z" stroke="white" stroke-width="1.3"/><path d="M10 2v3h3" stroke="white" stroke-width="1.3"/><path d="M5 8h6M5 10.5h4" stroke="white" stroke-width="1.3" stroke-linecap="round"/></svg>
+        Orçamentos
+      </div>
+      <div class="nav-section">Sistema</div>
+      <div class="nav-item" onclick="nav('empresa')" id="nav-empresa">
+        <svg class="nav-icon" viewBox="0 0 16 16" fill="none"><rect x="2" y="4" width="12" height="10" rx="1" stroke="white" stroke-width="1.3" opacity=".7"/><path d="M5 4V3a1 1 0 011-1h4a1 1 0 011 1v1" stroke="white" stroke-width="1.3"/><path d="M8 8v3M6.5 9.5h3" stroke="white" stroke-width="1.3" stroke-linecap="round"/></svg>
+        Minha Empresa
+      </div>
+    </nav>
+    <div class="sidebar-footer">Cavtec</div>
+  </aside>
+
+  <!-- MAIN -->
+  <div class="main">
+    <header class="topbar">
+      <div class="topbar-left">
+        <h2 id="page-title">Dashboard</h2>
+        <p id="page-sub">Visão geral</p>
+      </div>
+      <div class="topbar-right" id="topbar-right"></div>
+    </header>
+    <main class="content" id="content"></main>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════
+//  DADOS (localStorage)
+// ═══════════════════════════════════════════
+const KEYS = {
+  empresa:'gc_empresa', clientes:'gc_clientes', fornecedores:'gc_fornecedores',
+  apagar:'gc_apagar', areceber:'gc_areceber', orcamentos:'gc_orcamentos', seq:'gc_seq'
+};
+
+function load(k){ try{ const d=localStorage.getItem(KEYS[k]); return d?JSON.parse(d):[]; }catch(e){ return []; } }
+function loadObj(k){ try{ const d=localStorage.getItem(KEYS[k]); return d?JSON.parse(d):{}; }catch(e){ return {}; } }
+function save(k,v){ localStorage.setItem(KEYS[k], JSON.stringify(v)); }
+
+let DB = {
+  empresa:     loadObj('empresa'),
+  clientes:    load('clientes'),
+  fornecedores:load('fornecedores'),
+  apagar:      load('apagar'),
+  areceber:    load('areceber'),
+  orcamentos:  load('orcamentos')
+};
+let SEQ = parseInt(localStorage.getItem(KEYS.seq)||'0');
+
+function nextId(){ SEQ++; localStorage.setItem(KEYS.seq, SEQ); return SEQ; }
+function saveAll(){ Object.keys(DB).forEach(k=>{ if(k==='empresa') save(k, DB[k]); else save(k, DB[k]); }); }
+
+// ═══════════════════════════════════════════
+//  UTILS
+// ═══════════════════════════════════════════
+function fmt(v){ return 'R$ '+parseFloat(v||0).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2}); }
+function fmtNum(v){ return parseFloat(v||0).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2}); }
+function unFmt(s){ return parseFloat(String(s).replace(/\./g,'').replace(',','.'))||0; }
+function today(){ return new Date().toISOString().split('T')[0]; }
+function fmtDate(d){ if(!d)return '—'; const p=d.split('-'); return p[2]+'/'+p[1]+'/'+p[0]; }
+function diasAteVencer(d){ if(!d)return null; const diff=(new Date(d+'T00:00:00')-new Date()); return Math.ceil(diff/86400000); }
+
+function showToast(msg, type='ok'){
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.className='toast show '+(type);
+  clearTimeout(t._t); t._t=setTimeout(()=>t.className='toast',3000);
+}
+
+function closeModal(){ document.querySelectorAll('.modal-overlay').forEach(m=>m.remove()); }
+
+function openModal(html){
+  closeModal();
+  const d=document.createElement('div');
+  d.className='modal-overlay';
+  d.innerHTML=html;
+  d.addEventListener('click',e=>{ if(e.target===d) closeModal(); });
+  document.body.appendChild(d);
+  const first=d.querySelector('input,select,textarea');
+  if(first) setTimeout(()=>first.focus(),80);
+}
+
+function mascaraMonetaria(inp){
+  let v=inp.value.replace(/\D/g,'');
+  if(!v){inp.value='';return;}
+  v=parseInt(v,10);
+  inp.value=(v/100).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});
+}
+
+// Verifica e atualiza status de contas vencidas
+function atualizarStatus(){
+  const hoje=today();
+  DB.apagar.forEach(c=>{ if(c.status==='Pendente'&&c.vencimento<hoje) c.status='Vencido'; });
+  DB.areceber.forEach(c=>{ if(c.status==='Pendente'&&c.vencimento<hoje) c.status='Vencido'; });
+  save('apagar',DB.apagar); save('areceber',DB.areceber);
+}
+
+// ═══════════════════════════════════════════
+//  NAVEGAÇÃO
+// ═══════════════════════════════════════════
+let paginaAtual='';
+function nav(p){
+  document.querySelectorAll('.nav-item').forEach(el=>el.classList.remove('active'));
+  const ni=document.getElementById('nav-'+p);
+  if(ni) ni.classList.add('active');
+  paginaAtual=p;
+  const pages={
+    dashboard: ['Dashboard','Visão geral'],
+    clientes:  ['Clientes','Cadastro de clientes'],
+    fornecedores:['Fornecedores','Cadastro de fornecedores'],
+    apagar:    ['Contas a Pagar','Controle de pagamentos'],
+    areceber:  ['Contas a Receber','Controle de recebimentos'],
+    orcamentos:['Orçamentos','Emissão e controle de orçamentos'],
+    empresa:   ['Minha Empresa','Dados e configurações da empresa']
+  };
+  const [title,sub]=pages[p]||[p,''];
+  document.getElementById('page-title').textContent=title;
+  document.getElementById('page-sub').textContent=sub;
+  const tr=document.getElementById('topbar-right');
+  tr.innerHTML='';
+  atualizarStatus();
+  const renders={dashboard:renderDashboard,clientes:renderClientes,fornecedores:renderFornecedores,apagar:renderApagar,areceber:renderAreceber,orcamentos:renderOrcamentos,empresa:renderEmpresa};
+  if(renders[p]) renders[p]();
+}
+
+// ═══════════════════════════════════════════
+//  DASHBOARD
+// ═══════════════════════════════════════════
+function renderDashboard(){
+  document.getElementById('topbar-right').innerHTML='';
+  const hoje=today();
+  const totalPagar=DB.apagar.filter(c=>c.status!=='Pago').reduce((a,c)=>a+parseFloat(c.valor||0),0);
+  const totalReceber=DB.areceber.filter(c=>c.status!=='Recebido').reduce((a,c)=>a+parseFloat(c.valor||0),0);
+  const vencidosPagar=DB.apagar.filter(c=>c.status==='Vencido').length;
+  const vencidosReceber=DB.areceber.filter(c=>c.status==='Vencido').length;
+  const orcAbertos=DB.orcamentos.filter(c=>c.status==='Aberto'||c.status==='Enviado').length;
+  const orcAprovados=DB.orcamentos.filter(c=>c.status==='Aprovado').length;
+
+  // Próximos vencimentos (7 dias)
+  const proxPagar=DB.apagar.filter(c=>c.status!=='Pago'&&c.vencimento>=hoje).sort((a,b)=>a.vencimento.localeCompare(b.vencimento)).slice(0,5);
+  const proxReceber=DB.areceber.filter(c=>c.status!=='Recebido'&&c.vencimento>=hoje).sort((a,b)=>a.vencimento.localeCompare(b.vencimento)).slice(0,5);
+
+  document.getElementById('content').innerHTML=`
+  <div class="metrics-grid">
+    <div class="metric"><div class="m-label">Clientes</div><div class="m-val">${DB.clientes.length}</div><div class="m-sub">cadastrados</div></div>
+    <div class="metric"><div class="m-label">Fornecedores</div><div class="m-val">${DB.fornecedores.length}</div><div class="m-sub">cadastrados</div></div>
+    <div class="metric red"><div class="m-label">A Pagar</div><div class="m-val">${fmt(totalPagar)}</div><div class="m-sub">${vencidosPagar} vencido(s)</div></div>
+    <div class="metric green"><div class="m-label">A Receber</div><div class="m-val">${fmt(totalReceber)}</div><div class="m-sub">${vencidosReceber} vencido(s)</div></div>
+  </div>
+  <div class="metrics-grid" style="grid-template-columns:1fr 1fr 1fr 1fr">
+    <div class="metric blue"><div class="m-label">Orçamentos Abertos</div><div class="m-val">${orcAbertos}</div><div class="m-sub">aguardando retorno</div></div>
+    <div class="metric"><div class="m-label" style="color:var(--green)">Orçamentos Aprovados</div><div class="m-val" style="color:var(--green)">${orcAprovados}</div><div class="m-sub">este período</div></div>
+    <div class="metric"><div class="m-label">Saldo Líquido</div><div class="m-val" style="color:${totalReceber-totalPagar>=0?'var(--green)':'var(--red)'}">${fmt(totalReceber-totalPagar)}</div><div class="m-sub">receber − pagar</div></div>
+    <div class="metric amber"><div class="m-label">Vencimentos Hoje</div><div class="m-val">${DB.apagar.filter(c=>c.vencimento===hoje&&c.status!=='Pago').length+DB.areceber.filter(c=>c.vencimento===hoje&&c.status!=='Recebido').length}</div><div class="m-sub">contas no prazo</div></div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
+    <div class="card">
+      <div class="card-header"><h3>⏰ Próximos Pagamentos</h3><button class="btn btn-sm" onclick="nav('apagar')">Ver todos</button></div>
+      <div class="card-body no-pad">
+        ${proxPagar.length?`<table><thead><tr><th>Descrição</th><th>Vencimento</th><th>Valor</th><th>Status</th></tr></thead><tbody>
+          ${proxPagar.map(c=>`<tr><td>${c.descricao}</td><td>${fmtDate(c.vencimento)}</td><td>${fmt(c.valor)}</td><td>${badgeStatus(c.status)}</td></tr>`).join('')}
+        </tbody></table>`:`<div class="empty"><div class="e-icon">✅</div><p>Sem pagamentos pendentes</p></div>`}
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header"><h3>💰 Próximos Recebimentos</h3><button class="btn btn-sm" onclick="nav('areceber')">Ver todos</button></div>
+      <div class="card-body no-pad">
+        ${proxReceber.length?`<table><thead><tr><th>Descrição</th><th>Vencimento</th><th>Valor</th><th>Status</th></tr></thead><tbody>
+          ${proxReceber.map(c=>`<tr><td>${c.descricao}</td><td>${fmtDate(c.vencimento)}</td><td>${fmt(c.valor)}</td><td>${badgeStatus(c.status)}</td></tr>`).join('')}
+        </tbody></table>`:`<div class="empty"><div class="e-icon">✅</div><p>Sem recebimentos pendentes</p></div>`}
+      </div>
+    </div>
+  </div>`;
+}
+
+function badgeStatus(s){
+  const m={'Pendente':'badge-amber','Vencido':'badge-red','Pago':'badge-green','Recebido':'badge-green',
+           'Aberto':'badge-blue','Enviado':'badge-amber','Aprovado':'badge-green','Recusado':'badge-red','Cancelado':'badge-gray'};
+  return `<span class="badge ${m[s]||'badge-gray'}">${s}</span>`;
+}
+
+// ═══════════════════════════════════════════
+//  CLIENTES
+// ═══════════════════════════════════════════
+let filtroClientes='';
+function renderClientes(){
+  document.getElementById('topbar-right').innerHTML=`<button class="btn primary" onclick="modalCliente()">+ Novo Cliente</button>`;
+  const lista=DB.clientes.filter(c=>!filtroClientes||JSON.stringify(c).toLowerCase().includes(filtroClientes.toLowerCase()));
+  document.getElementById('content').innerHTML=`
+  <div class="search-row">
+    <input class="search-input" placeholder="Buscar por nome, CPF/CNPJ, cidade..." value="${filtroClientes}" oninput="filtroClientes=this.value;renderClientes()">
+    <button class="btn primary" onclick="modalCliente()">+ Novo Cliente</button>
+  </div>
+  <div class="card">
+    <div class="card-body no-pad">
+      ${lista.length?`<div class="table-wrap"><table>
+        <thead><tr><th>#</th><th>Nome / Razão Social</th><th>CPF/CNPJ</th><th>Telefone</th><th>E-mail</th><th>Cidade</th><th>Ações</th></tr></thead>
+        <tbody>${lista.map(c=>`<tr>
+          <td style="color:var(--text3);font-family:'DM Mono',monospace;font-size:11px">${String(c.id).padStart(4,'0')}</td>
+          <td><strong>${c.nome}</strong>${c.fantasia?`<br><span style="font-size:11px;color:var(--text3)">${c.fantasia}</span>`:''}</td>
+          <td style="font-family:'DM Mono',monospace">${c.cpfcnpj||'—'}</td>
+          <td>${c.telefone||'—'}</td><td>${c.email||'—'}</td><td>${c.cidade||(c.estado?c.estado:'—')}</td>
+          <td><div class="td-actions">
+            <button class="btn btn-sm" onclick="modalCliente(${c.id})">✏️</button>
+            <button class="btn btn-sm danger" onclick="excluirRegistro('clientes',${c.id},'renderClientes')">🗑️</button>
+          </div></td>
+        </tr>`).join('')}</tbody>
+      </table></div>`:`<div class="empty"><div class="e-icon">👥</div><h4>Nenhum cliente cadastrado</h4><p>Clique em "+ Novo Cliente" para começar.</p></div>`}
+    </div>
+  </div>`;
+}
+
+function modalCliente(id){
+  const c=id?DB.clientes.find(x=>x.id===id):null;
+  const v=c||{};
+  openModal(`<div class="modal">
+    <div class="modal-header"><h3>${c?'Editar Cliente':'Novo Cliente'}</h3><button class="modal-close" onclick="closeModal()">✕</button></div>
+    <div class="modal-body">
+      <div class="sec-div">Identificação</div>
+      <div class="grid-2">
+        <div class="field req"><label>Nome / Razão Social</label><input id="mc-nome" value="${v.nome||''}" placeholder="Nome completo ou razão social"></div>
+        <div class="field"><label>Nome Fantasia</label><input id="mc-fantasia" value="${v.fantasia||''}" placeholder="Nome fantasia"></div>
+      </div>
+      <div class="grid-2">
+        <div class="field"><label>CPF / CNPJ</label><input id="mc-cpfcnpj" value="${v.cpfcnpj||''}" placeholder="000.000.000-00"></div>
+        <div class="field"><label>IE / RG</label><input id="mc-ie" value="${v.ie||''}" placeholder="Inscrição estadual ou RG"></div>
+      </div>
+      <div class="sec-div">Contato</div>
+      <div class="grid-3">
+        <div class="field"><label>Telefone</label><input id="mc-tel" value="${v.telefone||''}" placeholder="(00) 00000-0000"></div>
+        <div class="field"><label>Celular / WhatsApp</label><input id="mc-cel" value="${v.celular||''}" placeholder="(00) 90000-0000"></div>
+        <div class="field"><label>E-mail</label><input id="mc-email" type="email" value="${v.email||''}" placeholder="email@exemplo.com"></div>
+      </div>
+      <div class="sec-div">Endereço</div>
+      <div class="grid-2">
+        <div class="field"><label>CEP</label><input id="mc-cep" value="${v.cep||''}" placeholder="00000-000"></div>
+        <div class="field"><label>Estado</label><input id="mc-estado" value="${v.estado||''}" placeholder="RS"></div>
+      </div>
+      <div class="grid-2">
+        <div class="field"><label>Cidade</label><input id="mc-cidade" value="${v.cidade||''}" placeholder="Cidade"></div>
+        <div class="field"><label>Bairro</label><input id="mc-bairro" value="${v.bairro||''}" placeholder="Bairro"></div>
+      </div>
+      <div class="field"><label>Endereço (Rua, número)</label><input id="mc-end" value="${v.endereco||''}" placeholder="Rua, número"></div>
+      <div class="sec-div">Informações Adicionais</div>
+      <div class="field"><label>Observações</label><textarea id="mc-obs">${v.obs||''}</textarea></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="closeModal()">Cancelar</button>
+      <button class="btn primary" onclick="salvarCliente(${id||'null'})">Salvar</button>
+    </div>
+  </div>`);
+}
+
+function salvarCliente(id){
+  const nome=document.getElementById('mc-nome').value.trim();
+  if(!nome){showToast('Informe o nome do cliente.','err');return;}
+  const obj={
+    id: id||nextId(), nome,
+    fantasia: document.getElementById('mc-fantasia').value.trim(),
+    cpfcnpj: document.getElementById('mc-cpfcnpj').value.trim(),
+    ie: document.getElementById('mc-ie').value.trim(),
+    telefone: document.getElementById('mc-tel').value.trim(),
+    celular: document.getElementById('mc-cel').value.trim(),
+    email: document.getElementById('mc-email').value.trim(),
+    cep: document.getElementById('mc-cep').value.trim(),
+    estado: document.getElementById('mc-estado').value.trim(),
+    cidade: document.getElementById('mc-cidade').value.trim(),
+    bairro: document.getElementById('mc-bairro').value.trim(),
+    endereco: document.getElementById('mc-end').value.trim(),
+    obs: document.getElementById('mc-obs').value.trim()
+  };
+  if(id){ const i=DB.clientes.findIndex(x=>x.id===id); DB.clientes[i]=obj; }
+  else DB.clientes.push(obj);
+  save('clientes',DB.clientes);
+  closeModal(); renderClientes();
+  showToast('Cliente salvo com sucesso!');
+}
+
+// ═══════════════════════════════════════════
+//  FORNECEDORES
+// ═══════════════════════════════════════════
+let filtroForn='';
+function renderFornecedores(){
+  document.getElementById('topbar-right').innerHTML=`<button class="btn primary" onclick="modalFornecedor()">+ Novo Fornecedor</button>`;
+  const lista=DB.fornecedores.filter(c=>!filtroForn||JSON.stringify(c).toLowerCase().includes(filtroForn.toLowerCase()));
+  document.getElementById('content').innerHTML=`
+  <div class="search-row">
+    <input class="search-input" placeholder="Buscar por nome, CPF/CNPJ, cidade..." value="${filtroForn}" oninput="filtroForn=this.value;renderFornecedores()">
+    <button class="btn primary" onclick="modalFornecedor()">+ Novo Fornecedor</button>
+  </div>
+  <div class="card">
+    <div class="card-body no-pad">
+      ${lista.length?`<div class="table-wrap"><table>
+        <thead><tr><th>#</th><th>Nome / Razão Social</th><th>CPF/CNPJ</th><th>Telefone</th><th>E-mail</th><th>Categoria</th><th>Ações</th></tr></thead>
+        <tbody>${lista.map(c=>`<tr>
+          <td style="color:var(--text3);font-family:'DM Mono',monospace;font-size:11px">${String(c.id).padStart(4,'0')}</td>
+          <td><strong>${c.nome}</strong>${c.fantasia?`<br><span style="font-size:11px;color:var(--text3)">${c.fantasia}</span>`:''}</td>
+          <td style="font-family:'DM Mono',monospace">${c.cpfcnpj||'—'}</td>
+          <td>${c.telefone||'—'}</td><td>${c.email||'—'}</td>
+          <td>${c.categoria?`<span class="badge badge-blue">${c.categoria}</span>`:'—'}</td>
+          <td><div class="td-actions">
+            <button class="btn btn-sm" onclick="modalFornecedor(${c.id})">✏️</button>
+            <button class="btn btn-sm danger" onclick="excluirRegistro('fornecedores',${c.id},'renderFornecedores')">🗑️</button>
+          </div></td>
+        </tr>`).join('')}</tbody>
+      </table></div>`:`<div class="empty"><div class="e-icon">🏭</div><h4>Nenhum fornecedor cadastrado</h4><p>Clique em "+ Novo Fornecedor" para começar.</p></div>`}
+    </div>
+  </div>`;
+}
+
+function modalFornecedor(id){
+  const c=id?DB.fornecedores.find(x=>x.id===id):null;
+  const v=c||{};
+  const cats=['Materiais','Serviços','Tecnologia','Logística','Alimentação','Limpeza','Equipamentos','Outro'];
+  openModal(`<div class="modal">
+    <div class="modal-header"><h3>${c?'Editar Fornecedor':'Novo Fornecedor'}</h3><button class="modal-close" onclick="closeModal()">✕</button></div>
+    <div class="modal-body">
+      <div class="sec-div">Identificação</div>
+      <div class="grid-2">
+        <div class="field req"><label>Nome / Razão Social</label><input id="mf-nome" value="${v.nome||''}"></div>
+        <div class="field"><label>Nome Fantasia</label><input id="mf-fantasia" value="${v.fantasia||''}"></div>
+      </div>
+      <div class="grid-3">
+        <div class="field"><label>CPF / CNPJ</label><input id="mf-cpfcnpj" value="${v.cpfcnpj||''}"></div>
+        <div class="field"><label>IE</label><input id="mf-ie" value="${v.ie||''}"></div>
+        <div class="field"><label>Categoria</label><select id="mf-cat">${cats.map(o=>`<option ${v.categoria===o?'selected':''}>${o}</option>`).join('')}</select></div>
+      </div>
+      <div class="sec-div">Contato</div>
+      <div class="grid-3">
+        <div class="field"><label>Telefone</label><input id="mf-tel" value="${v.telefone||''}"></div>
+        <div class="field"><label>Celular</label><input id="mf-cel" value="${v.celular||''}"></div>
+        <div class="field"><label>E-mail</label><input id="mf-email" type="email" value="${v.email||''}"></div>
+      </div>
+      <div class="field"><label>Site / Portal</label><input id="mf-site" value="${v.site||''}" placeholder="https://"></div>
+      <div class="sec-div">Endereço</div>
+      <div class="grid-2">
+        <div class="field"><label>CEP</label><input id="mf-cep" value="${v.cep||''}"></div>
+        <div class="field"><label>Estado</label><input id="mf-estado" value="${v.estado||''}"></div>
+      </div>
+      <div class="grid-2">
+        <div class="field"><label>Cidade</label><input id="mf-cidade" value="${v.cidade||''}"></div>
+        <div class="field"><label>Bairro</label><input id="mf-bairro" value="${v.bairro||''}"></div>
+      </div>
+      <div class="field"><label>Endereço</label><input id="mf-end" value="${v.endereco||''}"></div>
+      <div class="sec-div">Dados Bancários</div>
+      <div class="grid-3">
+        <div class="field"><label>Banco</label><input id="mf-banco" value="${v.banco||''}" placeholder="Nome do banco"></div>
+        <div class="field"><label>Agência</label><input id="mf-agencia" value="${v.agencia||''}"></div>
+        <div class="field"><label>Conta</label><input id="mf-conta" value="${v.conta||''}"></div>
+      </div>
+      <div class="grid-2">
+        <div class="field"><label>Tipo de Chave PIX</label><select id="mf-pixtp"><option value="">Sem PIX</option><option ${v.pixtipo==='CPF/CNPJ'?'selected':''}>CPF/CNPJ</option><option ${v.pixtipo==='E-mail'?'selected':''}>E-mail</option><option ${v.pixtipo==='Telefone'?'selected':''}>Telefone</option><option ${v.pixtipo==='Aleatória'?'selected':''}>Aleatória</option></select></div>
+        <div class="field"><label>Chave PIX</label><input id="mf-pixkey" value="${v.pixchave||''}"></div>
+      </div>
+      <div class="field"><label>Observações</label><textarea id="mf-obs">${v.obs||''}</textarea></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="closeModal()">Cancelar</button>
+      <button class="btn primary" onclick="salvarFornecedor(${id||'null'})">Salvar</button>
+    </div>
+  </div>`);
+}
+
+function salvarFornecedor(id){
+  const nome=document.getElementById('mf-nome').value.trim();
+  if(!nome){showToast('Informe o nome do fornecedor.','err');return;}
+  const obj={
+    id: id||nextId(), nome,
+    fantasia: document.getElementById('mf-fantasia').value.trim(),
+    cpfcnpj: document.getElementById('mf-cpfcnpj').value.trim(),
+    ie: document.getElementById('mf-ie').value.trim(),
+    categoria: document.getElementById('mf-cat').value,
+    telefone: document.getElementById('mf-tel').value.trim(),
+    celular: document.getElementById('mf-cel').value.trim(),
+    email: document.getElementById('mf-email').value.trim(),
+    site: document.getElementById('mf-site').value.trim(),
+    cep: document.getElementById('mf-cep').value.trim(),
+    estado: document.getElementById('mf-estado').value.trim(),
+    cidade: document.getElementById('mf-cidade').value.trim(),
+    bairro: document.getElementById('mf-bairro').value.trim(),
+    endereco: document.getElementById('mf-end').value.trim(),
+    banco: document.getElementById('mf-banco').value.trim(),
+    agencia: document.getElementById('mf-agencia').value.trim(),
+    conta: document.getElementById('mf-conta').value.trim(),
+    pixtipo: document.getElementById('mf-pixtp').value,
+    pixchave: document.getElementById('mf-pixkey').value.trim(),
+    obs: document.getElementById('mf-obs').value.trim()
+  };
+  if(id){ const i=DB.fornecedores.findIndex(x=>x.id===id); DB.fornecedores[i]=obj; }
+  else DB.fornecedores.push(obj);
+  save('fornecedores',DB.fornecedores);
+  closeModal(); renderFornecedores();
+  showToast('Fornecedor salvo!');
+}
+
+// ═══════════════════════════════════════════
+//  CONTAS (PAGAR / RECEBER) — compartilhado
+// ═══════════════════════════════════════════
+let filtroApagar='', filtroAreceber='', tabApagar='todas', tabAreceber='todas';
+
+function renderContas(tipo){
+  const isPagar=tipo==='apagar';
+  const lista=DB[tipo];
+  const filtro=isPagar?filtroApagar:filtroAreceber;
+  const tab=isPagar?tabApagar:tabAreceber;
+  const setFiltro=isPagar?'filtroApagar':'filtroAreceber';
+  const setTab=isPagar?'tabApagar':'tabAreceber';
+  const statusOpts=isPagar?['Pendente','Pago','Vencido']:['Pendente','Recebido','Vencido'];
+  const statusPago=isPagar?'Pago':'Recebido';
+  const label=isPagar?'Fornecedor':'Cliente';
+  const participantes=isPagar?DB.fornecedores:DB.clientes;
+
+  let items=lista;
+  if(tab==='pendentes') items=items.filter(c=>c.status==='Pendente');
+  else if(tab==='vencidos') items=items.filter(c=>c.status==='Vencido');
+  else if(tab==='pagos') items=items.filter(c=>c.status===statusPago);
+  if(filtro) items=items.filter(c=>JSON.stringify(c).toLowerCase().includes(filtro.toLowerCase()));
+  items=[...items].sort((a,b)=>a.vencimento.localeCompare(b.vencimento));
+
+  const totPend=lista.filter(c=>c.status!==statusPago).reduce((a,c)=>a+parseFloat(c.valor||0),0);
+  const totPago=lista.filter(c=>c.status===statusPago).reduce((a,c)=>a+parseFloat(c.valor||0),0);
+  const totVenc=lista.filter(c=>c.status==='Vencido').reduce((a,c)=>a+parseFloat(c.valor||0),0);
+
+  document.getElementById('topbar-right').innerHTML=`<button class="btn primary" onclick="modalConta('${tipo}')">+ Nova Conta</button>`;
+  document.getElementById('content').innerHTML=`
+  <div class="metrics-grid" style="grid-template-columns:repeat(3,1fr);margin-bottom:18px">
+    <div class="metric ${isPagar?'red':'green'}"><div class="m-label">Em Aberto</div><div class="m-val">${fmt(totPend)}</div><div class="m-sub">${lista.filter(c=>c.status!==statusPago).length} conta(s)</div></div>
+    <div class="metric amber"><div class="m-label">Vencido</div><div class="m-val">${fmt(totVenc)}</div><div class="m-sub">${lista.filter(c=>c.status==='Vencido').length} conta(s)</div></div>
+    <div class="metric"><div class="m-label">${statusPago}</div><div class="m-val" style="color:var(--green)">${fmt(totPago)}</div><div class="m-sub">${lista.filter(c=>c.status===statusPago).length} conta(s)</div></div>
+  </div>
+  <div class="card">
+    <div class="card-header">
+      <div class="tabs" style="margin-bottom:0;border:none">
+        ${['todas','pendentes','vencidos','pagos'].map(t=>`<div class="tab ${tab===t?'active':''}" onclick="${setTab}='${t}';renderContas('${tipo}')">${{todas:'Todas',pendentes:'Pendentes',vencidos:'Vencidos',pagos:statusPago}[t]}</div>`).join('')}
+      </div>
+      <div style="display:flex;gap:8px">
+        <input class="search-input" style="min-width:180px" placeholder="Buscar..." value="${filtro}" oninput="${setFiltro}=this.value;renderContas('${tipo}')">
+        <button class="btn primary btn-sm" onclick="modalConta('${tipo}')">+ Nova</button>
+      </div>
+    </div>
+    <div class="card-body no-pad">
+      ${items.length?`<div class="table-wrap"><table>
+        <thead><tr><th>#</th><th>Descrição</th><th>${label}</th><th>Categoria</th><th>Vencimento</th><th>Valor</th><th>Status</th><th>Ações</th></tr></thead>
+        <tbody>${items.map(c=>{
+          const dias=diasAteVencer(c.vencimento);
+          const alerta=c.status==='Pendente'&&dias!==null&&dias<=3&&dias>=0?`<span style="font-size:10px;color:var(--amber);margin-left:4px">⚠️ ${dias}d</span>`:'';
+          return `<tr>
+            <td style="color:var(--text3);font-family:'DM Mono',monospace;font-size:11px">${String(c.id).padStart(4,'0')}</td>
+            <td><strong>${c.descricao}</strong>${c.obs?`<br><span style="font-size:11px;color:var(--text3)">${c.obs}</span>`:''}</td>
+            <td>${c.participante||'—'}</td>
+            <td>${c.categoria?`<span class="badge badge-blue">${c.categoria}</span>`:'—'}</td>
+            <td>${fmtDate(c.vencimento)}${alerta}${c.dataPagamento?`<br><span style="font-size:10px;color:var(--green)">✓ ${fmtDate(c.dataPagamento)}</span>`:''}</td>
+            <td style="font-weight:600">${fmt(c.valor)}</td>
+            <td>${badgeStatus(c.status)}</td>
+            <td><div class="td-actions">
+              ${c.status!==statusPago?`<button class="btn btn-sm success" title="${isPagar?'Marcar como Pago':'Marcar como Recebido'}" onclick="pagarConta('${tipo}',${c.id},'${statusPago}')">✓</button>`:''}
+              <button class="btn btn-sm" onclick="modalConta('${tipo}',${c.id})">✏️</button>
+              <button class="btn btn-sm danger" onclick="excluirRegistro('${tipo}',${c.id},'()=>renderContas(\'${tipo}\')')">🗑️</button>
+            </div></td>
+          </tr>`;
+        }).join('')}</tbody>
+      </table></div>`:`<div class="empty"><div class="e-icon">${isPagar?'💸':'💰'}</div><h4>Nenhuma conta encontrada</h4><p>Clique em "+ Nova Conta" para lançar.</p></div>`}
+    </div>
+  </div>`;
+}
+function renderApagar(){ renderContas('apagar'); }
+function renderAreceber(){ renderContas('areceber'); }
+
+function pagarConta(tipo, id, status){
+  const c=DB[tipo].find(x=>x.id===id);
+  if(!c) return;
+  openModal(`<div class="modal modal-sm">
+    <div class="modal-header"><h3>${status==='Pago'?'Registrar Pagamento':'Registrar Recebimento'}</h3><button class="modal-close" onclick="closeModal()">✕</button></div>
+    <div class="modal-body">
+      <p style="margin-bottom:14px;font-size:13px;color:var(--text2)"><strong>${c.descricao}</strong> — ${fmt(c.valor)}</p>
+      <div class="field req"><label>Data do ${status==='Pago'?'Pagamento':'Recebimento'}</label><input type="date" id="pag-data" value="${today()}"></div>
+      <div class="field"><label>Observação</label><input id="pag-obs" placeholder="Opcional" value="${c.obs||''}"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="closeModal()">Cancelar</button>
+      <button class="btn success" onclick="confirmarPagamento('${tipo}',${id},'${status}')">Confirmar</button>
+    </div>
+  </div>`);
+}
+
+function confirmarPagamento(tipo, id, status){
+  const data=document.getElementById('pag-data').value;
+  if(!data){showToast('Informe a data.','err');return;}
+  const c=DB[tipo].find(x=>x.id===id);
+  c.status=status; c.dataPagamento=data;
+  const obs=document.getElementById('pag-obs').value.trim();
+  if(obs) c.obs=obs;
+  save(tipo,DB[tipo]);
+  closeModal(); renderContas(tipo);
+  showToast('Registrado com sucesso!');
+}
+
+function modalConta(tipo, id){
+  const c=id?DB[tipo].find(x=>x.id===id):null;
+  const v=c||{};
+  const isPagar=tipo==='apagar';
+  const label=isPagar?'Fornecedor':'Cliente';
+  const participantes=isPagar?DB.fornecedores:DB.clientes;
+  const cats=['Aluguel','Água/Luz/Gás','Impostos','Salários','Serviços','Materiais','Manutenção','Marketing','Outros'];
+  const statusOpts=isPagar?['Pendente','Pago','Vencido']:['Pendente','Recebido','Vencido'];
+  openModal(`<div class="modal">
+    <div class="modal-header"><h3>${c?'Editar Conta':'Nova Conta'}</h3><button class="modal-close" onclick="closeModal()">✕</button></div>
+    <div class="modal-body">
+      <div class="field req"><label>Descrição</label><input id="ct-desc" value="${v.descricao||''}" placeholder="Descreva a conta"></div>
+      <div class="grid-2">
+        <div class="field"><label>${label}</label><select id="ct-part"><option value="">Selecione...</option>${participantes.map(p=>`<option value="${p.nome}" ${v.participante===p.nome?'selected':''}>${p.nome}</option>`).join('')}</select></div>
+        <div class="field"><label>Categoria</label><select id="ct-cat">${cats.map(o=>`<option ${v.categoria===o?'selected':''}>${o}</option>`).join('')}</select></div>
+      </div>
+      <div class="grid-3">
+        <div class="field req"><label>Valor (R$)</label><input id="ct-valor" value="${v.valor?fmtNum(v.valor):''}" placeholder="0,00" oninput="mascaraMonetaria(this)"></div>
+        <div class="field req"><label>Vencimento</label><input type="date" id="ct-venc" value="${v.vencimento||today()}"></div>
+        <div class="field"><label>Status</label><select id="ct-status">${statusOpts.map(s=>`<option ${v.status===s?'selected':''}>${s}</option>`).join('')}</select></div>
+      </div>
+      <div class="grid-2">
+        <div class="field"><label>Nº Documento</label><input id="ct-num" value="${v.numero||''}" placeholder="NF, boleto..."></div>
+        <div class="field"><label>Forma de Pagamento</label><select id="ct-forma"><option value="">—</option>${['Dinheiro','PIX','Transferência','Boleto','Cartão Débito','Cartão Crédito','Cheque'].map(o=>`<option ${v.forma===o?'selected':''}>${o}</option>`).join('')}</select></div>
+      </div>
+      <div class="field"><label>Observações</label><textarea id="ct-obs">${v.obs||''}</textarea></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="closeModal()">Cancelar</button>
+      <button class="btn primary" onclick="salvarConta('${tipo}',${id||'null'})">Salvar</button>
+    </div>
+  </div>`);
+}
+
+function salvarConta(tipo, id){
+  const desc=document.getElementById('ct-desc').value.trim();
+  const venc=document.getElementById('ct-venc').value;
+  const valor=unFmt(document.getElementById('ct-valor').value);
+  if(!desc){showToast('Informe a descrição.','err');return;}
+  if(!venc){showToast('Informe o vencimento.','err');return;}
+  if(!valor){showToast('Informe o valor.','err');return;}
+  const obj={
+    id: id||nextId(), descricao: desc,
+    participante: document.getElementById('ct-part').value,
+    categoria: document.getElementById('ct-cat').value,
+    valor, vencimento: venc,
+    status: document.getElementById('ct-status').value,
+    numero: document.getElementById('ct-num').value.trim(),
+    forma: document.getElementById('ct-forma').value,
+    obs: document.getElementById('ct-obs').value.trim()
+  };
+  if(id){ const i=DB[tipo].findIndex(x=>x.id===id); DB[tipo][i]=obj; }
+  else DB[tipo].push(obj);
+  save(tipo,DB[tipo]);
+  closeModal(); renderContas(tipo);
+  showToast('Conta salva!');
+}
+
+// ═══════════════════════════════════════════
+//  ORÇAMENTOS
+// ═══════════════════════════════════════════
+let filtroOrc='', tabOrc='todos';
+
+function renderOrcamentos(){
+  document.getElementById('topbar-right').innerHTML=`<button class="btn primary" onclick="modalOrcamento()">+ Novo Orçamento</button>`;
+  let items=DB.orcamentos;
+  if(tabOrc!=='todos') items=items.filter(c=>c.status===tabOrc);
+  if(filtroOrc) items=items.filter(c=>JSON.stringify(c).toLowerCase().includes(filtroOrc.toLowerCase()));
+  items=[...items].sort((a,b)=>b.numero-a.numero);
+
+  document.getElementById('content').innerHTML=`
+  <div class="card">
+    <div class="card-header">
+      <div class="tabs" style="margin-bottom:0;border:none">
+        ${['todos','Aberto','Enviado','Aprovado','Recusado','Cancelado'].map(t=>`<div class="tab ${tabOrc===t?'active':''}" onclick="tabOrc='${t}';renderOrcamentos()">${t==='todos'?'Todos':t}</div>`).join('')}
+      </div>
+      <div style="display:flex;gap:8px">
+        <input class="search-input" style="min-width:160px" placeholder="Buscar..." value="${filtroOrc}" oninput="filtroOrc=this.value;renderOrcamentos()">
+        <button class="btn primary btn-sm" onclick="modalOrcamento()">+ Novo</button>
+      </div>
+    </div>
+    <div class="card-body no-pad">
+      ${items.length?`<div class="table-wrap"><table>
+        <thead><tr><th>Nº</th><th>Cliente</th><th>Data</th><th>Validade</th><th>Total</th><th>Status</th><th>Ações</th></tr></thead>
+        <tbody>${items.map(o=>`<tr>
+          <td style="font-family:'DM Mono',monospace;font-weight:600">#${String(o.numero).padStart(4,'0')}</td>
+          <td><strong>${o.cliente}</strong>${o.obs?`<br><span style="font-size:11px;color:var(--text3)">${o.obs.substring(0,40)}</span>`:''}</td>
+          <td>${fmtDate(o.data)}</td>
+          <td>${fmtDate(o.validade)}</td>
+          <td style="font-weight:700;color:var(--green)">${fmt(o.total)}</td>
+          <td>${badgeStatus(o.status)}</td>
+          <td><div class="td-actions">
+            <button class="btn btn-sm info" title="Imprimir" onclick="imprimirOrcamento(${o.id})">🖨️</button>
+            <button class="btn btn-sm" onclick="modalOrcamento(${o.id})">✏️</button>
+            <button class="btn btn-sm" onclick="clonarOrcamento(${o.id})" title="Clonar">📋</button>
+            <button class="btn btn-sm danger" onclick="excluirRegistro('orcamentos',${o.id},'renderOrcamentos')">🗑️</button>
+          </div></td>
+        </tr>`).join('')}</tbody>
+      </table></div>`:`<div class="empty"><div class="e-icon">📄</div><h4>Nenhum orçamento encontrado</h4><p>Clique em "+ Novo Orçamento" para criar.</p></div>`}
+    </div>
+  </div>`;
+}
+
+// Itens do orçamento em edição
+let orcItens=[];
+function orcAddItem(item){
+  orcItens.push(item||{descricao:'',qtd:1,unidade:'Un',unitario:0,total:0});
+  renderOrcItens();
+}
+function orcRemItem(i){ orcItens.splice(i,1); renderOrcItens(); }
+function orcCalcItem(i){
+  const row=document.querySelectorAll('.orc-item-row')[i];
+  const qtd=parseFloat(row.querySelector('.orc-qtd').value)||0;
+  const unit=unFmt(row.querySelector('.orc-unit').value);
+  const tot=qtd*unit;
+  row.querySelector('.orc-tot').value=fmtNum(tot);
+  orcItens[i]={
+    descricao:row.querySelector('.orc-desc').value,
+    qtd, unidade:row.querySelector('.orc-un').value,
+    unitario:unit, total:tot
+  };
+  orcCalcTotais();
+}
+function orcCalcTotais(){
+  const subtotal=orcItens.reduce((a,c)=>a+parseFloat(c.total||0),0);
+  const desc=unFmt(document.getElementById('orc-desconto')?.value||'0');
+  const total=Math.max(0,subtotal-desc);
+  const el=document.getElementById('orc-total-preview');
+  if(el) el.innerHTML=`
+    <div class="orcamento-total-line"><span>Subtotal</span><span>${fmt(subtotal)}</span></div>
+    <div class="orcamento-total-line"><span>Desconto</span><span style="color:var(--red)">− ${fmt(desc)}</span></div>
+    <div class="orcamento-total-line bold"><span>Total</span><span>${fmt(total)}</span></div>`;
+}
+function renderOrcItens(){
+  const c=document.getElementById('orc-itens-wrap');
+  if(!c) return;
+  c.innerHTML=`<table class="orcamento-items">
+    <thead><tr><th style="min-width:200px">Descrição</th><th style="width:65px">Qtd</th><th style="width:60px">Un.</th><th style="width:110px">Unitário (R$)</th><th style="width:110px">Total (R$)</th><th style="width:36px"></th></tr></thead>
+    <tbody>${orcItens.map((it,i)=>`<tr class="orc-item-row">
+      <td><input class="orc-desc" value="${it.descricao||''}" placeholder="Descrição do item" oninput="orcCalcItem(${i})"></td>
+      <td><input class="orc-qtd" type="number" min="0" step="0.01" value="${it.qtd||1}" oninput="orcCalcItem(${i})"></td>
+      <td><input class="orc-un" value="${it.unidade||'Un'}" style="text-align:center" oninput="orcCalcItem(${i})"></td>
+      <td><input class="orc-unit" value="${fmtNum(it.unitario)}" placeholder="0,00" oninput="mascaraMonetaria(this);orcCalcItem(${i})"></td>
+      <td><input class="orc-tot" value="${fmtNum(it.total)}" readonly style="background:var(--bg);color:var(--text2)"></td>
+      <td><button class="btn btn-icon danger" onclick="orcRemItem(${i})">✕</button></td>
+    </tr>`).join('')}</tbody>
+  </table>
+  <button class="btn btn-sm" style="margin-top:8px" onclick="orcAddItem()">+ Adicionar Item</button>`;
+  orcCalcTotais();
+}
+
+function modalOrcamento(id){
+  const o=id?DB.orcamentos.find(x=>x.id===id):null;
+  orcItens=o?(o.itens||[]).map(x=>({...x})):[{descricao:'',qtd:1,unidade:'Un',unitario:0,total:0}];
+  const v=o||{data:today(),validade:'',status:'Aberto'};
+  // validade padrão: 15 dias
+  if(!v.validade){const d=new Date();d.setDate(d.getDate()+15);v.validade=d.toISOString().split('T')[0];}
+  openModal(`<div class="modal modal-lg">
+    <div class="modal-header"><h3>${o?'Editar Orçamento #'+String(o.numero).padStart(4,'0'):'Novo Orçamento'}</h3><button class="modal-close" onclick="closeModal()">✕</button></div>
+    <div class="modal-body">
+      <div class="sec-div">Dados Gerais</div>
+      <div class="grid-3">
+        <div class="field req"><label>Cliente</label><select id="orc-cliente"><option value="">Selecione ou digite abaixo</option>${DB.clientes.map(c=>`<option value="${c.nome}" ${(v.cliente===c.nome)?'selected':''}>${c.nome}</option>`).join('')}</select></div>
+        <div class="field"><label>Ou informe o nome</label><input id="orc-cliente-manual" value="${v.clienteManual||''}" placeholder="Nome do cliente (se não cadastrado)"></div>
+        <div class="field"><label>Status</label><select id="orc-status">${['Aberto','Enviado','Aprovado','Recusado','Cancelado'].map(s=>`<option ${v.status===s?'selected':''}>${s}</option>`).join('')}</select></div>
+      </div>
+      <div class="grid-3">
+        <div class="field req"><label>Data</label><input type="date" id="orc-data" value="${v.data}"></div>
+        <div class="field"><label>Validade</label><input type="date" id="orc-validade" value="${v.validade}"></div>
+        <div class="field"><label>Condição de Pagamento</label><input id="orc-cond" value="${v.condicao||''}" placeholder="Ex: 30/60/90 dias"></div>
+      </div>
+      <div class="sec-div">Itens do Orçamento</div>
+      <div id="orc-itens-wrap"></div>
+      <div class="sec-div" style="margin-top:14px">Totais</div>
+      <div style="display:grid;grid-template-columns:1fr 280px;gap:16px;align-items:start">
+        <div>
+          <div class="field"><label>Observações / Condições Gerais</label><textarea id="orc-obs" rows="4">${v.obs||''}</textarea></div>
+        </div>
+        <div>
+          <div class="field"><label>Desconto (R$)</label><input id="orc-desconto" value="${v.desconto?fmtNum(v.desconto):'0,00'}" placeholder="0,00" oninput="mascaraMonetaria(this);orcCalcTotais()"></div>
+          <div class="orcamento-total-box" id="orc-total-preview"></div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="closeModal()">Cancelar</button>
+      <button class="btn info" onclick="salvarOrcamento(${id||'null'},true)">💾 Salvar e Imprimir</button>
+      <button class="btn primary" onclick="salvarOrcamento(${id||'null'},false)">Salvar</button>
+    </div>
+  </div>`);
+  setTimeout(()=>{renderOrcItens();orcCalcTotais();},60);
+}
+
+function salvarOrcamento(id, imprimir){
+  const clienteSel=document.getElementById('orc-cliente').value;
+  const clienteManual=document.getElementById('orc-cliente-manual').value.trim();
+  const cliente=clienteSel||clienteManual;
+  if(!cliente){showToast('Informe o cliente.','err');return;}
+  const data=document.getElementById('orc-data').value;
+  if(!data){showToast('Informe a data.','err');return;}
+  // captura itens atuais
+  document.querySelectorAll('.orc-item-row').forEach((row,i)=>{
+    if(orcItens[i]){
+      const qtd=parseFloat(row.querySelector('.orc-qtd').value)||0;
+      const unit=unFmt(row.querySelector('.orc-unit').value);
+      orcItens[i]={
+        descricao:row.querySelector('.orc-desc').value,
+        qtd, unidade:row.querySelector('.orc-un').value,
+        unitario:unit, total:qtd*unit
+      };
+    }
+  });
+  const itens=orcItens.filter(i=>i.descricao.trim());
+  if(!itens.length){showToast('Adicione ao menos um item.','err');return;}
+  const subtotal=itens.reduce((a,c)=>a+parseFloat(c.total||0),0);
+  const desconto=unFmt(document.getElementById('orc-desconto').value);
+  const total=Math.max(0,subtotal-desconto);
+  const numero=id?(DB.orcamentos.find(x=>x.id===id)?.numero||nextId()):nextId();
+  const obj={
+    id: id||numero, numero,
+    cliente, clienteManual,
+    status: document.getElementById('orc-status').value,
+    data, validade: document.getElementById('orc-validade').value,
+    condicao: document.getElementById('orc-cond').value.trim(),
+    itens, subtotal, desconto, total,
+    obs: document.getElementById('orc-obs').value.trim()
+  };
+  if(id){ const i=DB.orcamentos.findIndex(x=>x.id===id); DB.orcamentos[i]=obj; }
+  else DB.orcamentos.push(obj);
+  save('orcamentos',DB.orcamentos);
+  closeModal();
+  renderOrcamentos();
+  showToast('Orçamento salvo!');
+  if(imprimir) setTimeout(()=>imprimirOrcamento(obj.id),200);
+}
+
+function clonarOrcamento(id){
+  const o=DB.orcamentos.find(x=>x.id===id);
+  if(!o) return;
+  const newId=nextId();
+  const clone={...o,id:newId,numero:newId,status:'Aberto',data:today()};
+  DB.orcamentos.push(clone);
+  save('orcamentos',DB.orcamentos);
+  renderOrcamentos();
+  showToast('Orçamento clonado! (#'+String(newId).padStart(4,'0')+')');
+}
+
+function imprimirOrcamento(id){
+  const o=DB.orcamentos.find(x=>x.id===id);
+  if(!o) return;
+  const emp=DB.empresa;
+  const logoHtml=emp.logoBase64?`<img src="${emp.logoBase64}" class="print-logo" alt="Logo">`:'';
+  const html=`<div class="print-orcamento">
+    <div class="print-header">
+      <div class="print-empresa-info">
+        <h1>${emp.nome||'Minha Empresa'}</h1>
+        <p>
+          ${emp.cnpj?`CNPJ: ${emp.cnpj}<br>`:''}
+          ${emp.endereco?`${emp.endereco}<br>`:''}
+          ${emp.telefone?`Tel: ${emp.telefone}  `:''}${emp.celular?`/ ${emp.celular}<br>`:'<br>'}
+          ${emp.email?`E-mail: ${emp.email}<br>`:''}
+          ${emp.site?`${emp.site}`:''}
+        </p>
+      </div>
+      ${logoHtml?`<div>${logoHtml}</div>`:''}
+    </div>
+    <div class="print-title-box">
+      <h2>ORÇAMENTO</h2>
+      <p>#${String(o.numero).padStart(4,'0')} &nbsp;|&nbsp; ${fmtDate(o.data)}</p>
+    </div>
+    <div class="print-two-col">
+      <div class="print-box">
+        <h4>Cliente</h4>
+        <p><strong>${o.cliente}</strong></p>
+        ${(()=>{ const cl=DB.clientes.find(c=>c.nome===o.cliente); return cl?`
+          ${cl.cpfcnpj?`<p>CPF/CNPJ: ${cl.cpfcnpj}</p>`:''}
+          ${cl.endereco?`<p>${cl.endereco}${cl.cidade?', '+cl.cidade:''}</p>`:''}
+          ${cl.telefone?`<p>Tel: ${cl.telefone}</p>`:''}
+          ${cl.email?`<p>${cl.email}</p>`:''}
+        `:''; })()}
+      </div>
+      <div class="print-box">
+        <h4>Dados do Orçamento</h4>
+        <p>Data: <strong>${fmtDate(o.data)}</strong></p>
+        <p>Validade: <strong>${o.validade?fmtDate(o.validade):'—'}</strong></p>
+        <p>Cond. Pagamento: <strong>${o.condicao||'A combinar'}</strong></p>
+        <p>Status: <strong>${o.status}</strong></p>
+      </div>
+    </div>
+    <table class="print-items">
+      <thead><tr><th>Descrição</th><th style="text-align:center">Qtd</th><th style="text-align:center">Un.</th><th style="text-align:right">Unitário</th><th style="text-align:right">Total</th></tr></thead>
+      <tbody>
+        ${o.itens.map(it=>`<tr>
+          <td>${it.descricao}</td>
+          <td style="text-align:center">${fmtNum(it.qtd)}</td>
+          <td style="text-align:center">${it.unidade||'Un'}</td>
+          <td style="text-align:right">R$ ${fmtNum(it.unitario)}</td>
+          <td style="text-align:right;font-weight:600">R$ ${fmtNum(it.total)}</td>
+        </tr>`).join('')}
+      </tbody>
+    </table>
+    <div class="print-totals">
+      <div class="print-totals-inner">
+        <div class="print-tot-line"><span>Subtotal</span><span>R$ ${fmtNum(o.subtotal)}</span></div>
+        <div class="print-tot-line"><span>Desconto</span><span>− R$ ${fmtNum(o.desconto||0)}</span></div>
+        <div class="print-tot-line big"><span>TOTAL</span><span>R$ ${fmtNum(o.total)}</span></div>
+      </div>
+    </div>
+    ${o.obs?`<div class="print-obs-box"><h4>Observações e Condições</h4><p>${o.obs.replace(/\n/g,'<br>')}</p></div>`:''}
+    <div class="print-assinatura">
+      <div class="print-assinatura-linha">Assinatura do Cliente — ${o.cliente}</div>
+      <div class="print-assinatura-linha">Assinatura — ${emp.nome||'Minha Empresa'}</div>
+    </div>
+    <div class="print-footer">
+      <span>${emp.nome||'Minha Empresa'} — Orçamento #${String(o.numero).padStart(4,'0')}</span>
+      <span>Emitido em ${fmtDate(today())}</span>
+    </div>
+  </div>`;
+  document.getElementById('print-area').innerHTML=html;
+  window.print();
+  setTimeout(()=>{ document.getElementById('print-area').innerHTML=''; },1000);
+}
+
+// ═══════════════════════════════════════════
+//  MINHA EMPRESA
+// ═══════════════════════════════════════════
+function renderEmpresa(){
+  document.getElementById('topbar-right').innerHTML='';
+  const e=DB.empresa;
+  document.getElementById('content').innerHTML=`
+  <div style="display:grid;grid-template-columns:1fr 340px;gap:20px;align-items:start">
+    <div>
+      <div class="card" style="margin-bottom:20px">
+        <div class="card-header"><h3>🏢 Dados da Empresa</h3></div>
+        <div class="card-body">
+          <div class="grid-2">
+            <div class="field req"><label>Razão Social / Nome</label><input id="e-nome" value="${e.nome||''}" placeholder="Nome da empresa"></div>
+            <div class="field"><label>Nome Fantasia</label><input id="e-fantasia" value="${e.fantasia||''}"></div>
+          </div>
+          <div class="grid-3">
+            <div class="field"><label>CNPJ / CPF</label><input id="e-cnpj" value="${e.cnpj||''}" placeholder="00.000.000/0001-00"></div>
+            <div class="field"><label>IE</label><input id="e-ie" value="${e.ie||''}"></div>
+            <div class="field"><label>IM</label><input id="e-im" value="${e.im||''}"></div>
+          </div>
+          <div class="sec-div">Contato</div>
+          <div class="grid-3">
+            <div class="field"><label>Telefone</label><input id="e-tel" value="${e.telefone||''}" placeholder="(00) 0000-0000"></div>
+            <div class="field"><label>Celular / WhatsApp</label><input id="e-cel" value="${e.celular||''}"></div>
+            <div class="field"><label>E-mail</label><input id="e-email" type="email" value="${e.email||''}"></div>
+          </div>
+          <div class="field"><label>Site</label><input id="e-site" value="${e.site||''}" placeholder="https://"></div>
+          <div class="sec-div">Endereço</div>
+          <div class="grid-2">
+            <div class="field"><label>CEP</label><input id="e-cep" value="${e.cep||''}"></div>
+            <div class="field"><label>Estado</label><input id="e-estado" value="${e.estado||''}"></div>
+          </div>
+          <div class="grid-2">
+            <div class="field"><label>Cidade</label><input id="e-cidade" value="${e.cidade||''}"></div>
+            <div class="field"><label>Bairro</label><input id="e-bairro" value="${e.bairro||''}"></div>
+          </div>
+          <div class="field"><label>Endereço completo</label><input id="e-end" value="${e.endereco||''}" placeholder="Rua, número, complemento"></div>
+          <div class="sec-div">Texto de Rodapé (Orçamentos)</div>
+          <div class="field"><label>Observações padrão nos orçamentos</label><textarea id="e-obs" rows="3">${e.obsOrcamento||''}</textarea></div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="card" style="margin-bottom:20px">
+        <div class="card-header"><h3>🖼️ Logo da Empresa</h3></div>
+        <div class="card-body">
+          <div class="logo-upload-area" onclick="document.getElementById('logo-file').click()">
+            <div style="font-size:24px;margin-bottom:6px">📷</div>
+            <div>Clique para enviar o logo</div>
+            <div style="font-size:11px;margin-top:4px;color:var(--text3)">PNG, JPG — recomendado 400×160px</div>
+          </div>
+          <input type="file" id="logo-file" accept="image/*" style="display:none" onchange="carregarLogo(this)">
+          <div id="logo-preview-wrap" style="margin-top:12px;text-align:center">
+            ${e.logoBase64?`<img src="${e.logoBase64}" class="empresa-logo-preview"><br><button class="btn btn-sm danger" style="margin-top:8px" onclick="removerLogo()">Remover logo</button>`:
+            '<p style="font-size:12px;color:var(--text3)">Nenhum logo carregado</p>'}
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header"><h3>⚙️ Preferências</h3></div>
+        <div class="card-body">
+          <div class="field"><label>Validade padrão de orçamentos (dias)</label><input id="e-validade" type="number" value="${e.validadeOrc||15}" min="1"></div>
+          <div class="field"><label>Moeda</label><select id="e-moeda"><option ${e.moeda==='BRL'||!e.moeda?'selected':''}>BRL</option><option ${e.moeda==='USD'?'selected':''}>USD</option><option ${e.moeda==='EUR'?'selected':''}>EUR</option></select></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:4px">
+    <button class="btn" onclick="nav('dashboard')">Cancelar</button>
+    <button class="btn primary" onclick="salvarEmpresa()">💾 Salvar Configurações</button>
+  </div>`;
+}
+
+function carregarLogo(input){
+  const file=input.files[0]; if(!file) return;
+  const reader=new FileReader();
+  reader.onload=e=>{
+    DB.empresa.logoBase64=e.target.result;
+    save('empresa',DB.empresa);
+    atualizarLogoSidebar();
+    document.getElementById('logo-preview-wrap').innerHTML=`<img src="${e.target.result}" class="empresa-logo-preview"><br><button class="btn btn-sm danger" style="margin-top:8px" onclick="removerLogo()">Remover logo</button>`;
+    showToast('Logo carregado!');
+  };
+  reader.readAsDataURL(file);
+}
+
+function removerLogo(){
+  DB.empresa.logoBase64='';
+  save('empresa',DB.empresa);
+  atualizarLogoSidebar();
+  document.getElementById('logo-preview-wrap').innerHTML='<p style="font-size:12px;color:var(--text3)">Nenhum logo carregado</p>';
+  showToast('Logo removido.');
+}
+
+function salvarEmpresa(){
+  const nome=document.getElementById('e-nome').value.trim();
+  if(!nome){showToast('Informe o nome da empresa.','err');return;}
+  DB.empresa={
+    ...DB.empresa,
+    nome, fantasia: document.getElementById('e-fantasia').value.trim(),
+    cnpj: document.getElementById('e-cnpj').value.trim(),
+    ie: document.getElementById('e-ie').value.trim(),
+    im: document.getElementById('e-im').value.trim(),
+    telefone: document.getElementById('e-tel').value.trim(),
+    celular: document.getElementById('e-cel').value.trim(),
+    email: document.getElementById('e-email').value.trim(),
+    site: document.getElementById('e-site').value.trim(),
+    cep: document.getElementById('e-cep').value.trim(),
+    estado: document.getElementById('e-estado').value.trim(),
+    cidade: document.getElementById('e-cidade').value.trim(),
+    bairro: document.getElementById('e-bairro').value.trim(),
+    endereco: document.getElementById('e-end').value.trim(),
+    obsOrcamento: document.getElementById('e-obs').value.trim(),
+    validadeOrc: parseInt(document.getElementById('e-validade').value)||15,
+    moeda: document.getElementById('e-moeda').value
+  };
+  save('empresa',DB.empresa);
+  atualizarLogoSidebar();
+  showToast('Configurações salvas!');
+}
+
+function atualizarLogoSidebar(){
+  const e=DB.empresa;
+  document.getElementById('sidebar-nome').textContent=e.nome||'Minha Empresa';
+  const wrap=document.getElementById('sidebar-logo-wrap');
+  if(e.logoBase64){
+    wrap.innerHTML=`<img src="${e.logoBase64}" class="logo-img" alt="Logo" onclick="nav('empresa')" style="cursor:pointer">`;
+  } else {
+    wrap.innerHTML=`<div class="logo-placeholder" onclick="nav('empresa')" title="Clique para configurar o logo">📷<br>Adicionar logo</div>`;
+  }
+}
+
+// ═══════════════════════════════════════════
+//  UTILITÁRIOS GERAIS
+// ═══════════════════════════════════════════
+function excluirRegistro(tabela, id, renderFn){
+  if(!confirm('Excluir este registro? Esta ação não pode ser desfeita.')) return;
+  DB[tabela]=DB[tabela].filter(x=>x.id!==id);
+  save(tabela,DB[tabela]);
+  if(typeof renderFn==='string') eval(renderFn+'()');
+  else if(typeof renderFn==='function') renderFn();
+  showToast('Registro excluído.');
+}
+
+// ═══════════════════════════════════════════
+//  INICIALIZAÇÃO
+// ═══════════════════════════════════════════
+document.addEventListener('DOMContentLoaded',()=>{
+  atualizarLogoSidebar();
+  atualizarStatus();
+  nav('dashboard');
+});
+</script>
+</body>
+</html>
